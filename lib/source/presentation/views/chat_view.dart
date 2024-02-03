@@ -14,11 +14,19 @@ class ChatView extends StatefulWidget {
 
 class _ChatViewState extends State<ChatView> {
   late SupscripeMessageChannelUseCase useCase;
+  late TextEditingController channelController;
 
   @override
   void initState() {
     useCase = SupscripeMessageChannelUseCase(repositorie: widget.repositorie);
+    channelController = TextEditingController();
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    channelController.dispose();
+    super.dispose();
   }
 
   @override
@@ -35,6 +43,7 @@ class _ChatViewState extends State<ChatView> {
   }
 
   _buildBody(BuildContext context, ChatState state) {
+    double scrrenWidth = MediaQuery.of(context).size.width;
     if (state is MessageRecived) {
       return Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -46,10 +55,21 @@ class _ChatViewState extends State<ChatView> {
       return Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          SizedBox(
+            width: scrrenWidth * 0.6,
+            child: TextField(
+              controller: channelController,
+              decoration: const InputDecoration(border: OutlineInputBorder()),
+            ),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
           Center(
             child: OutlinedButton(
                 onPressed: () => context.read<ChatBloc>().add(
-                    SupscripeMessageChannel(channelID: "1", usecase: useCase)),
+                    SupscripeMessageChannel(
+                        channelID: channelController.text, usecase: useCase)),
                 child: const Text("Connect To Server")),
           ),
         ],
@@ -57,5 +77,15 @@ class _ChatViewState extends State<ChatView> {
     }
   }
 
-  _triggerEvents(BuildContext context, ChatState state) {}
+  _triggerEvents(BuildContext context, ChatState state) {
+    if (state is SubscriptionSuccesfull) {
+      debugPrint("Succefully Connected");
+    }
+    if (state is SubscriptionFailed) {
+      debugPrint("Succefully Failed");
+    }
+    if (state is MessageRecived) {
+      debugPrint("Message Recived: ${state.message.message}");
+    }
+  }
 }
