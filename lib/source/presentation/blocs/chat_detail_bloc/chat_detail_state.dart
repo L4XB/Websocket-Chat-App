@@ -14,3 +14,11 @@ final class MessageRecived extends ChatDetailState {
 final class SubscriptionFailed extends ChatDetailState {}
 
 final class SubscriptionSuccesfull extends ChatDetailState {}
+
+final class HistoryMessagesRecieved extends ChatDetailState {
+  final List<MessageModel> historyMessages;
+
+  HistoryMessagesRecieved({required this.historyMessages});
+}
+
+final class LoadHistoryMessagesFailed extends ChatDetailState {}

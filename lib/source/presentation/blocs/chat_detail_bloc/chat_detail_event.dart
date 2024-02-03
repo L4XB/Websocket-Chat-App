@@ -8,3 +8,10 @@ final class SubscripeStream extends ChatDetailEvent {
 
   SubscripeStream({required this.stream});
 }
+
+final class LoadHistoryMessages extends ChatDetailEvent {
+  final String channelID;
+  final GetHistoryMessagesUseCase useCase;
+
+  LoadHistoryMessages({required this.channelID, required this.useCase});
+}
