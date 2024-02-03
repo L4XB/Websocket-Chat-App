@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class MessageInputField extends StatefulWidget {
-  const MessageInputField({super.key});
+  final Function onPress;
+  const MessageInputField({super.key, required this.onPress});
 
   @override
   State<MessageInputField> createState() => _MessageInputFieldState();
@@ -18,7 +19,7 @@ class _MessageInputFieldState extends State<MessageInputField> {
           labelText: 'Nachricht eingeben',
           suffixIcon: IconButton(
             icon: const Icon(Icons.send),
-            onPressed: () {},
+            onPressed: () => widget.onPress,
           ),
         ),
       ),

@@ -82,9 +82,9 @@ class _ChatDetailViewState extends State<ChatDetailView> {
           const SizedBox(
             height: 20,
           ),
-          const Align(
+          Align(
             alignment: Alignment.bottomCenter,
-            child: MessageInputField(),
+            child: MessageInputField(onPress: () {}),
           ),
         ],
       );
