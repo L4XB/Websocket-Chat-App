@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 
 class MessageInputField extends StatefulWidget {
   final Function onPress;
-  const MessageInputField({super.key, required this.onPress});
+  final TextEditingController controller;
+  const MessageInputField(
+      {super.key, required this.onPress, required this.controller});
 
   @override
   State<MessageInputField> createState() => _MessageInputFieldState();
@@ -14,6 +16,7 @@ class _MessageInputFieldState extends State<MessageInputField> {
     return Container(
       color: const Color.fromARGB(255, 120, 185, 245),
       child: TextField(
+        controller: widget.controller,
         decoration: InputDecoration(
           border: const OutlineInputBorder(),
           labelText: 'Nachricht eingeben',

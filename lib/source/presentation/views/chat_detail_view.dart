@@ -84,7 +84,11 @@ class _ChatDetailViewState extends State<ChatDetailView> {
           ),
           Align(
             alignment: Alignment.bottomCenter,
-            child: MessageInputField(onPress: () {}),
+            child: MessageInputField(
+                controller: messageInputController,
+                onPress: () {
+                  //TODO: Implement Event
+                }),
           ),
         ],
       );
