@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:websocket_chat/source/common/constants/style_constants.dart';
 
 class ChatDetailView extends StatefulWidget {
-  const ChatDetailView({super.key});
+  final Stream<dynamic> messageStream;
+  const ChatDetailView({super.key, required this.messageStream});
 
   @override
   State<ChatDetailView> createState() => _ChatDetailViewState();

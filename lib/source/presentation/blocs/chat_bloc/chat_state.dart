@@ -13,4 +13,8 @@ final class MessageRecived extends ChatState {
 
 final class SubscriptionFailed extends ChatState {}
 
-final class SubscriptionSuccesfull extends ChatState {}
+final class SubscriptionSuccesfull extends ChatState {
+  final Stream<dynamic> messageStream;
+
+  SubscriptionSuccesfull({required this.messageStream});
+}

@@ -34,14 +34,11 @@ class _ChatViewState extends State<ChatView> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => ChatBloc(),
-      child: Scaffold(
-        appBar: StyleConstants().buildAppBar("Connect to Server"),
-        body: BlocConsumer<ChatBloc, ChatState>(
-          builder: (context, state) => _buildBody(context, state),
-          listener: (context, state) => _triggerEvents(context, state),
-        ),
+    return Scaffold(
+      appBar: StyleConstants().buildAppBar("Connect to Server"),
+      body: BlocConsumer<ChatBloc, ChatState>(
+        builder: (context, state) => _buildBody(context, state),
+        listener: (context, state) => _triggerEvents(context, state),
       ),
     );
   }
@@ -84,7 +81,8 @@ class _ChatViewState extends State<ChatView> {
   _triggerEvents(BuildContext context, ChatState state) {
     if (state is SubscriptionSuccesfull) {
       debugPrint("Succefully Connected");
-      AppNavigator().pushNavigationToWidget(const ChatDetailView(), context);
+      AppNavigator().pushNavigationToWidget(
+          ChatDetailView(messageStream: state.messageStream), context);
     }
     if (state is SubscriptionFailed) {
       debugPrint("Succefully Failed");
