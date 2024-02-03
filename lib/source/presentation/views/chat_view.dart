@@ -78,6 +78,7 @@ class _ChatViewState extends State<ChatView> {
       AppNavigator().pushNavigationToWidget(
           ChatDetailView(
               messageStream: state.messageStream,
+              repositorie: widget.repositorie,
               channelID: channelController.text),
           context);
     }
