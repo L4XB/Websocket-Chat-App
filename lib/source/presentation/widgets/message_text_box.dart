@@ -4,7 +4,7 @@ class MessageInputField extends StatefulWidget {
   const MessageInputField({super.key});
 
   @override
-  _MessageInputFieldState createState() => _MessageInputFieldState();
+  State<MessageInputField> createState() => _MessageInputFieldState();
 }
 
 class _MessageInputFieldState extends State<MessageInputField> {
