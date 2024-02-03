@@ -19,10 +19,10 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     final useCase = event.usecase;
     final channelID = event.channelID;
     try {
-      Stream<dynamic> stream = await useCase.execute(channelID);
+      Stream<dynamic> messageStream = await useCase.execute(channelID);
       emit(SubscriptionSuccesfull());
 
-      await emit.forEach(stream, onData: (message) {
+      await emit.forEach(messageStream, onData: (message) {
         Map<String, dynamic> jsonData = jsonDecode(message);
         return MessageRecived(message: MessageModel.fromJSON(jsonData));
       });
