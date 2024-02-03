@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:websocket_chat/source/common/constants/style_constants.dart';
 import 'package:websocket_chat/source/data/repositories/websocket_repositorie.dart';
 import 'package:websocket_chat/source/domain/usecases/supscripe_message_channel.dart';
 import 'package:websocket_chat/source/presentation/blocs/chat_bloc/chat_bloc.dart';
+import 'package:websocket_chat/source/presentation/navigation/navigator.dart';
+import 'package:websocket_chat/source/presentation/views/chat_detail_view.dart';
 
 class ChatView extends StatefulWidget {
   final WebsocketRepositorie repositorie;
@@ -34,6 +37,7 @@ class _ChatViewState extends State<ChatView> {
     return BlocProvider(
       create: (context) => ChatBloc(),
       child: Scaffold(
+        appBar: StyleConstants().buildAppBar("Connect to Server"),
         body: BlocConsumer<ChatBloc, ChatState>(
           builder: (context, state) => _buildBody(context, state),
           listener: (context, state) => _triggerEvents(context, state),
@@ -80,6 +84,7 @@ class _ChatViewState extends State<ChatView> {
   _triggerEvents(BuildContext context, ChatState state) {
     if (state is SubscriptionSuccesfull) {
       debugPrint("Succefully Connected");
+      AppNavigator().pushNavigationToWidget(const ChatDetailView(), context);
     }
     if (state is SubscriptionFailed) {
       debugPrint("Succefully Failed");
