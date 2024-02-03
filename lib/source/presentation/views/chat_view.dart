@@ -82,6 +82,7 @@ class _ChatViewState extends State<ChatView> {
               channelID: channelController.text),
           context);
     }
+
     if (state is SubscriptionFailed) {
       debugPrint("Succefully Failed");
     }

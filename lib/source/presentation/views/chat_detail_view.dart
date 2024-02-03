@@ -49,7 +49,7 @@ class _ChatDetailViewState extends State<ChatDetailView> {
   }
 
   Widget _buildBody(BuildContext context, ChatDetailState state) {
-    if (state is HistoryMessagesRecieved) {
+    if (state is HistoryMessagesRecieved || state is MessageRecived) {
       return Padding(
         padding: const EdgeInsets.only(top: 25, left: 20),
         child: Column(
@@ -69,13 +69,20 @@ class _ChatDetailViewState extends State<ChatDetailView> {
         ),
       );
     } else {
-      return const Placeholder();
+      return Container();
     }
   }
 
   _triggerEvents(BuildContext context, ChatDetailState state) {
     if (state is HistoryMessagesRecieved) {
       messages = state.historyMessages;
+      context
+          .read<ChatDetailBloc>()
+          .add(SubscripeStream(stream: widget.messageStream));
+    }
+
+    if (state is MessageRecived) {
+      messages.add(state.message);
     }
   }
 }
