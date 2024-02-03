@@ -5,7 +5,9 @@ import 'package:websocket_chat/source/presentation/blocs/chat_detail_bloc/chat_d
 
 class ChatDetailView extends StatefulWidget {
   final Stream<dynamic> messageStream;
-  const ChatDetailView({super.key, required this.messageStream});
+  final String channelID;
+  const ChatDetailView(
+      {super.key, required this.messageStream, required this.channelID});
 
   @override
   State<ChatDetailView> createState() => _ChatDetailViewState();

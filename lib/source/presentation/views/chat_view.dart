@@ -76,7 +76,10 @@ class _ChatViewState extends State<ChatView> {
     if (state is SubscriptionSuccesfull) {
       debugPrint("Succefully Connected");
       AppNavigator().pushNavigationToWidget(
-          ChatDetailView(messageStream: state.messageStream), context);
+          ChatDetailView(
+              messageStream: state.messageStream,
+              channelID: channelController.text),
+          context);
     }
     if (state is SubscriptionFailed) {
       debugPrint("Succefully Failed");
