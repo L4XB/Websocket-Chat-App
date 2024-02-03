@@ -6,6 +6,7 @@ import 'package:websocket_chat/source/domain/entities/message_model.dart';
 import 'package:websocket_chat/source/domain/usecases/get_history_messages.dart';
 import 'package:websocket_chat/source/presentation/blocs/chat_detail_bloc/chat_detail_bloc.dart';
 import 'package:websocket_chat/source/presentation/widgets/message_element_other_user.dart';
+import 'package:websocket_chat/source/presentation/widgets/message_text_box.dart';
 
 class ChatDetailView extends StatefulWidget {
   final WebsocketRepositorie repositorie;
@@ -24,17 +25,28 @@ class ChatDetailView extends StatefulWidget {
 class _ChatDetailViewState extends State<ChatDetailView> {
   late GetHistoryMessagesUseCase usecase;
   List<MessageModel> messages = [];
+  late TextEditingController messageInputController;
+  ScrollController scrollController = ScrollController();
 
   @override
   void initState() {
     usecase = GetHistoryMessagesUseCase(repositorie: widget.repositorie);
+    messageInputController = TextEditingController();
+
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    messageInputController.dispose();
+
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: StyleConstants().buildAppBar("Chat Page"),
+      appBar: StyleConstants().buildAppBar("Gruppe ${widget.channelID}"),
       body: BlocProvider(
           create: (context) => ChatDetailBloc()
             ..add(
@@ -50,12 +62,13 @@ class _ChatDetailViewState extends State<ChatDetailView> {
 
   Widget _buildBody(BuildContext context, ChatDetailState state) {
     if (state is HistoryMessagesRecieved || state is MessageRecived) {
-      return Padding(
-        padding: const EdgeInsets.only(top: 25, left: 20),
-        child: Column(
-          children: [
-            Expanded(
+      return Column(
+        children: [
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.only(top: 25, left: 20),
               child: ListView.builder(
+                controller: scrollController,
                 itemCount: messages.length,
                 itemBuilder: (context, index) {
                   return MessageBubble(
@@ -65,8 +78,15 @@ class _ChatDetailViewState extends State<ChatDetailView> {
                 },
               ),
             ),
-          ],
-        ),
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          const Align(
+            alignment: Alignment.bottomCenter,
+            child: MessageInputField(),
+          ),
+        ],
       );
     } else {
       return Container();
