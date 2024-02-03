@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
@@ -21,11 +20,6 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     try {
       Stream<dynamic> messageStream = await useCase.execute(channelID);
       emit(SubscriptionSuccesfull(messageStream: messageStream));
-
-      await emit.forEach(messageStream, onData: (message) {
-        Map<String, dynamic> jsonData = jsonDecode(message);
-        return MessageRecived(message: MessageModel.fromJSON(jsonData));
-      });
     } catch (e) {
       emit(SubscriptionFailed());
     }

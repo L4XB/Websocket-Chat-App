@@ -36,46 +36,40 @@ class _ChatViewState extends State<ChatView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: StyleConstants().buildAppBar("Connect to Server"),
-      body: BlocConsumer<ChatBloc, ChatState>(
-        builder: (context, state) => _buildBody(context, state),
-        listener: (context, state) => _triggerEvents(context, state),
+      body: BlocProvider(
+        create: (context) => ChatBloc(),
+        child: BlocConsumer<ChatBloc, ChatState>(
+          builder: (context, state) => _buildBody(context, state),
+          listener: (context, state) => _triggerEvents(context, state),
+        ),
       ),
     );
   }
 
   _buildBody(BuildContext context, ChatState state) {
     double scrrenWidth = MediaQuery.of(context).size.width;
-    if (state is MessageRecived) {
-      return Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Center(child: Text(state.message.message)),
-        ],
-      );
-    } else {
-      return Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          SizedBox(
-            width: scrrenWidth * 0.6,
-            child: TextField(
-              controller: channelController,
-              decoration: const InputDecoration(border: OutlineInputBorder()),
-            ),
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        SizedBox(
+          width: scrrenWidth * 0.6,
+          child: TextField(
+            controller: channelController,
+            decoration: const InputDecoration(border: OutlineInputBorder()),
           ),
-          const SizedBox(
-            height: 10,
-          ),
-          Center(
-            child: OutlinedButton(
-                onPressed: () => context.read<ChatBloc>().add(
-                    SupscripeMessageChannel(
-                        channelID: channelController.text, usecase: useCase)),
-                child: const Text("Connect To Server")),
-          ),
-        ],
-      );
-    }
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+        Center(
+          child: OutlinedButton(
+              onPressed: () => context.read<ChatBloc>().add(
+                  SupscripeMessageChannel(
+                      channelID: channelController.text, usecase: useCase)),
+              child: const Text("Connect To Server")),
+        ),
+      ],
+    );
   }
 
   _triggerEvents(BuildContext context, ChatState state) {
@@ -86,9 +80,6 @@ class _ChatViewState extends State<ChatView> {
     }
     if (state is SubscriptionFailed) {
       debugPrint("Succefully Failed");
-    }
-    if (state is MessageRecived) {
-      debugPrint("Message Recived: ${state.message.message}");
     }
   }
 }
