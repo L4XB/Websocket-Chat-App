@@ -71,15 +71,32 @@ class _ChatDetailViewState extends State<ChatDetailView> {
         children: [
           Expanded(
             child: Padding(
-              padding: const EdgeInsets.only(top: 25, left: 20),
+              padding: const EdgeInsets.only(top: 25, left: 20, right: 20),
               child: ListView.builder(
                 controller: scrollController,
                 itemCount: messages.length,
                 itemBuilder: (context, index) {
-                  return MessageBubble(
-                    userName: messages[index].userName,
-                    message: messages[index].message,
-                  );
+                  if (messages[index].userName == UserModel().userName) {
+                    return SizedBox(
+                      width: MediaQuery.of(context).size.width,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          MessageBubble(
+                            isAppUser: true,
+                            userName: messages[index].userName,
+                            message: messages[index].message,
+                          )
+                        ],
+                      ),
+                    );
+                  } else {
+                    return MessageBubble(
+                      isAppUser: false,
+                      userName: messages[index].userName,
+                      message: messages[index].message,
+                    );
+                  }
                 },
               ),
             ),

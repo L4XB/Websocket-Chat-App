@@ -5,14 +5,15 @@ import 'package:flutter/material.dart';
 class MessageBubble extends StatelessWidget {
   final String message;
   final String userName;
+  final bool isAppUser;
 
   static final userColors = <String, Color>{};
 
-  const MessageBubble({
-    super.key,
-    required this.message,
-    required this.userName,
-  });
+  const MessageBubble(
+      {super.key,
+      required this.message,
+      required this.userName,
+      required this.isAppUser});
 
   Color? getUserColor(String userName) {
     if (!userColors.containsKey(userName)) {
@@ -29,7 +30,9 @@ class MessageBubble extends StatelessWidget {
     return Align(
       alignment: Alignment.centerLeft,
       child: CustomPaint(
-        painter: MessageBubblePainter(color: userColor as Color),
+        painter: isAppUser
+            ? MessageBubblePainterAppUser(color: userColor as Color)
+            : MessageBubblePainter(color: userColor as Color),
         child: Container(
           margin: const EdgeInsets.only(left: 5, right: 20, top: 5, bottom: 15),
           padding: const EdgeInsets.all(10),
@@ -69,6 +72,31 @@ class MessageBubblePainter extends CustomPainter {
       ..lineTo(0, size.height)
       ..lineTo(0, 10)
       ..quadraticBezierTo(0, 0, 10, 0)
+      ..close();
+    canvas.drawPath(path, paint);
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return true;
+  }
+}
+
+class MessageBubblePainterAppUser extends CustomPainter {
+  final Color color;
+
+  MessageBubblePainterAppUser({required this.color});
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()..color = color;
+    final path = Path()
+      ..lineTo(size.width - 10, 0)
+      ..quadraticBezierTo(size.width, 0, size.width, 10)
+      ..lineTo(size.width, size.height)
+      ..lineTo(size.width - 10, size.height - 10)
+      ..lineTo(0, size.height - 10)
+      ..lineTo(0, 10)
       ..close();
     canvas.drawPath(path, paint);
   }
