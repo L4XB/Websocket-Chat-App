@@ -66,6 +66,7 @@ class _ChatDetailViewState extends State<ChatDetailView> {
 
   Widget _buildBody(BuildContext context, ChatDetailState state) {
     if (state is HistoryMessagesRecieved || state is MessageRecived) {
+      scrollDown();
       return RecivedMessagesLayout(
           channelID: widget.channelID,
           messageInputController: messageInputController,
@@ -77,7 +78,7 @@ class _ChatDetailViewState extends State<ChatDetailView> {
     }
   }
 
-  _triggerEvents(BuildContext context, ChatDetailState state) {
+  void _triggerEvents(BuildContext context, ChatDetailState state) {
     if (state is HistoryMessagesRecieved) {
       messages = state.historyMessages;
       context
@@ -88,5 +89,13 @@ class _ChatDetailViewState extends State<ChatDetailView> {
     if (state is MessageRecived) {
       messages.add(state.message);
     }
+  }
+
+  void scrollDown() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (scrollController.hasClients) {
+        scrollController.jumpTo(scrollController.position.maxScrollExtent);
+      }
+    });
   }
 }
