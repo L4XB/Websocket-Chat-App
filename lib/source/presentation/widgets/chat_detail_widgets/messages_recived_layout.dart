@@ -29,6 +29,7 @@ class RecivedMessagesLayout extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.only(top: 25, left: 20, right: 20),
             child: ListView.builder(
+              physics: const BouncingScrollPhysics(),
               controller: scrollController,
               itemCount: messages.length,
               itemBuilder: (context, index) {
