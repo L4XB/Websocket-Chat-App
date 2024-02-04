@@ -19,6 +19,10 @@ final class LoadHistoryMessages extends ChatDetailEvent {
 final class SendMessage extends ChatDetailEvent {
   final String channelID;
   final MessageModel messageModel;
+  final SendMessageUseCase useCase;
 
-  SendMessage({required this.channelID, required this.messageModel});
+  SendMessage(
+      {required this.channelID,
+      required this.messageModel,
+      required this.useCase});
 }

@@ -1,5 +1,6 @@
 import 'package:websocket_chat/source/config/websocket_config.dart';
 import 'package:websocket_chat/source/data/datasources/websocket_provider.dart';
+import 'package:websocket_chat/source/domain/entities/message_model.dart';
 
 class WebsocketRepositorie {
   final WebsocketProvider websocketProvider;
@@ -22,5 +23,14 @@ class WebsocketRepositorie {
     currentChannel.sink.close();
 
     return historyData;
+  }
+
+  Future<void> sendMessageIntoChannel(
+      String channelID, MessageModel messageModel) async {
+    final currentChannel = websocketProvider.connectToChannel(
+        WebSocketConfig().baseURLWithRoom, channelID);
+    await currentChannel.ready;
+    currentChannel.sink.add(messageModel.toJSON());
+    currentChannel.sink.close();
   }
 }
