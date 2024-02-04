@@ -6,6 +6,7 @@ import 'package:websocket_chat/source/domain/usecases/supscripe_message_channel.
 import 'package:websocket_chat/source/presentation/blocs/chat_bloc/chat_bloc.dart';
 import 'package:websocket_chat/source/presentation/navigation/navigator.dart';
 import 'package:websocket_chat/source/presentation/views/chat_detail_view.dart';
+import 'package:websocket_chat/source/presentation/widgets/chat_widgets/home_default_layout.dart';
 
 class ChatView extends StatefulWidget {
   final WebsocketRepositorie repositorie;
@@ -47,29 +48,8 @@ class _ChatViewState extends State<ChatView> {
   }
 
   _buildBody(BuildContext context, ChatState state) {
-    double scrrenWidth = MediaQuery.of(context).size.width;
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        SizedBox(
-          width: scrrenWidth * 0.6,
-          child: TextField(
-            controller: channelController,
-            decoration: const InputDecoration(border: OutlineInputBorder()),
-          ),
-        ),
-        const SizedBox(
-          height: 10,
-        ),
-        Center(
-          child: OutlinedButton(
-              onPressed: () => context.read<ChatBloc>().add(
-                  SupscripeMessageChannel(
-                      channelID: channelController.text, usecase: useCase)),
-              child: const Text("Connect To Server")),
-        ),
-      ],
-    );
+    return HomeDefaultLayout(
+        channelController: channelController, useCase: useCase);
   }
 
   _triggerEvents(BuildContext context, ChatState state) {
