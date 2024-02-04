@@ -5,10 +5,14 @@ import 'package:flutter/material.dart';
 class MessageBubble extends StatelessWidget {
   final String message;
   final String userName;
+
   static final userColors = <String, Color>{};
 
-  const MessageBubble(
-      {super.key, required this.message, required this.userName});
+  const MessageBubble({
+    super.key,
+    required this.message,
+    required this.userName,
+  });
 
   Color? getUserColor(String userName) {
     if (!userColors.containsKey(userName)) {

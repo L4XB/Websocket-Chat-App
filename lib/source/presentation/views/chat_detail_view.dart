@@ -3,7 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:websocket_chat/source/common/constants/style_constants.dart';
 import 'package:websocket_chat/source/data/repositories/websocket_repositorie.dart';
 import 'package:websocket_chat/source/domain/entities/message_model.dart';
+import 'package:websocket_chat/source/domain/entities/user_model.dart';
 import 'package:websocket_chat/source/domain/usecases/get_history_messages.dart';
+import 'package:websocket_chat/source/domain/usecases/send_message.dart';
 import 'package:websocket_chat/source/presentation/blocs/chat_detail_bloc/chat_detail_bloc.dart';
 import 'package:websocket_chat/source/presentation/widgets/message_element_other_user.dart';
 import 'package:websocket_chat/source/presentation/widgets/message_text_box.dart';
@@ -23,7 +25,9 @@ class ChatDetailView extends StatefulWidget {
 }
 
 class _ChatDetailViewState extends State<ChatDetailView> {
+  late SendMessageUseCase sendMessageUseCase;
   late GetHistoryMessagesUseCase usecase;
+
   List<MessageModel> messages = [];
   late TextEditingController messageInputController;
   ScrollController scrollController = ScrollController();
@@ -31,6 +35,7 @@ class _ChatDetailViewState extends State<ChatDetailView> {
   @override
   void initState() {
     usecase = GetHistoryMessagesUseCase(repositorie: widget.repositorie);
+    sendMessageUseCase = SendMessageUseCase(repositorie: widget.repositorie);
     messageInputController = TextEditingController();
 
     super.initState();
@@ -87,7 +92,14 @@ class _ChatDetailViewState extends State<ChatDetailView> {
             child: MessageInputField(
                 controller: messageInputController,
                 onPress: () {
-                  //TODO: Implement Event
+                  MessageModel appUser = MessageModel(
+                      id: "",
+                      userName: UserModel().userName,
+                      message: messageInputController.text);
+                  context.read<ChatDetailBloc>().add(SendMessage(
+                      channelID: widget.channelID,
+                      messageModel: appUser,
+                      useCase: sendMessageUseCase));
                 }),
           ),
         ],

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class MessageInputField extends StatefulWidget {
-  final Function onPress;
+  final Function() onPress;
   final TextEditingController controller;
   const MessageInputField(
       {super.key, required this.onPress, required this.controller});
@@ -22,7 +22,9 @@ class _MessageInputFieldState extends State<MessageInputField> {
           labelText: 'Nachricht eingeben',
           suffixIcon: IconButton(
             icon: const Icon(Icons.send),
-            onPressed: () => widget.onPress,
+            onPressed: () {
+              widget.onPress();
+            },
           ),
         ),
       ),
