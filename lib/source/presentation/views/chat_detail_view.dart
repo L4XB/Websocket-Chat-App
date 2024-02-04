@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:websocket_chat/source/common/constants/style_constants.dart';
+import 'package:websocket_chat/source/common/util/scroll_utils.dart';
 import 'package:websocket_chat/source/data/repositories/websocket_repositorie.dart';
 import 'package:websocket_chat/source/domain/entities/message_model.dart';
 import 'package:websocket_chat/source/domain/usecases/get_history_messages.dart';
@@ -66,7 +67,7 @@ class _ChatDetailViewState extends State<ChatDetailView> {
 
   Widget _buildBody(BuildContext context, ChatDetailState state) {
     if (state is HistoryMessagesRecieved || state is MessageRecived) {
-      scrollDown();
+      ScrollUtils().scrollDown(scrollController);
       return RecivedMessagesLayout(
           channelID: widget.channelID,
           messageInputController: messageInputController,
@@ -89,13 +90,5 @@ class _ChatDetailViewState extends State<ChatDetailView> {
     if (state is MessageRecived) {
       messages.add(state.message);
     }
-  }
-
-  void scrollDown() {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (scrollController.hasClients) {
-        scrollController.jumpTo(scrollController.position.maxScrollExtent);
-      }
-    });
   }
 }
