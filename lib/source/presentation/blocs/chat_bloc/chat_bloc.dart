@@ -13,6 +13,8 @@ part 'chat_state.dart';
 class ChatBloc extends Bloc<ChatEvent, ChatState> {
   ChatBloc() : super(ChatInitial()) {
     on<SupscripeMessageChannel>(supscripeToSpecificChannel);
+    on<AddMessageChannel>(addNewMessageChannel);
+    on<LoadAllMesageChannels>(loadAllMessageChannels);
   }
 
   FutureOr<void> supscripeToSpecificChannel(
@@ -24,6 +26,32 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
       emit(SubscriptionSuccesfull(messageStream: messageStream));
     } catch (e) {
       emit(SubscriptionFailed());
+    }
+  }
+
+  FutureOr<void> addNewMessageChannel(
+      AddMessageChannel event, Emitter<ChatState> emit) async {
+    final AddMessageChannelUseCase addChannelUseCase = event.addChanneluseCase;
+    final GetChannelIDsUseCase getChannelIDs = event.getChannelsUseCase;
+    final String channelName = event.channelName;
+    try {
+      addChannelUseCase.execute([channelName]);
+      final List<String>? allChannels = await getChannelIDs.execute();
+      emit(ChannelAddedSuccesfully(channelNamens: allChannels as List<String>));
+    } catch (e) {
+      emit(ChannelAddingFailed());
+    }
+  }
+
+  FutureOr<void> loadAllMessageChannels(
+      LoadAllMesageChannels event, Emitter<ChatState> emit) async {
+    try {
+      final List<String>? allChannels =
+          await event.getChannelsUseCase.execute();
+      emit(
+          ChannelsLoadedSuccefully(channelNamens: allChannels as List<String>));
+    } catch (e) {
+      emit(ChannelsLoadingFailed());
     }
   }
 }

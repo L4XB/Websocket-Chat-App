@@ -22,5 +22,7 @@ final class AddMessageChannel extends ChatEvent {
 }
 
 final class LoadAllMesageChannels extends ChatEvent {
-  //TODO: Implement usecase
+  final GetChannelIDsUseCase getChannelsUseCase;
+
+  LoadAllMesageChannels({required this.getChannelsUseCase});
 }

@@ -32,3 +32,5 @@ final class ChannelsLoadedSuccefully extends ChatState {
 
   ChannelsLoadedSuccefully({required this.channelNamens});
 }
+
+final class ChannelsLoadingFailed extends ChatState {}
