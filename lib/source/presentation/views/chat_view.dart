@@ -8,6 +8,7 @@ import 'package:websocket_chat/source/domain/usecases/supscripe_message_channel.
 import 'package:websocket_chat/source/presentation/blocs/chat_bloc/chat_bloc.dart';
 import 'package:websocket_chat/source/presentation/navigation/navigator.dart';
 import 'package:websocket_chat/source/presentation/views/chat_detail_view.dart';
+import 'package:websocket_chat/source/presentation/widgets/chat_widgets/channel_element.dart';
 import 'package:websocket_chat/source/presentation/widgets/chat_widgets/home_default_layout.dart';
 
 class ChatView extends StatefulWidget {
@@ -64,21 +65,23 @@ class _ChatViewState extends State<ChatView> {
 
   _buildBody(BuildContext context, ChatState state) {
     if (state is ChannelsLoadedSuccefully) {
-      return Column(
-        children: [
-          // TODO: Implement listview
-          HomeDefaultLayout(
-              channelController: channelController, useCase: useCase),
-        ],
-      );
+      if (state.channelNamens.isEmpty) {
+        return HomeDefaultLayout(
+            channelController: channelController, useCase: useCase);
+      } else {
+        return Column(
+          children: [
+            Flexible(child: ListView.builder(itemBuilder: (context, index) {
+              return ChannelElemnt(
+                  channelName: state.channelNamens[index], onpress: () {});
+            })),
+          ],
+        );
+      }
+    } else {
+      return HomeDefaultLayout(
+          channelController: channelController, useCase: useCase);
     }
-
-    return Column(
-      children: [
-        HomeDefaultLayout(
-            channelController: channelController, useCase: useCase),
-      ],
-    );
   }
 
   _triggerEvents(BuildContext context, ChatState state) {
@@ -93,8 +96,5 @@ class _ChatViewState extends State<ChatView> {
     }
   }
 
-  void _addNewChannel() async {
-    //TODO: Auf bloc auslagern
-    widget.sharedPrefsRepository.addChannelIDs([channelController.text]);
-  }
+  void _addNewChannel() async {}
 }

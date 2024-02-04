@@ -48,6 +48,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     try {
       final List<String>? allChannels =
           await event.getChannelsUseCase.execute();
+
       emit(
           ChannelsLoadedSuccefully(channelNamens: allChannels as List<String>));
     } catch (e) {

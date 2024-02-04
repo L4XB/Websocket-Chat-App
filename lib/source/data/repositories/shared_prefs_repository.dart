@@ -9,8 +9,11 @@ class SharedPrefsRepository {
 
   Future<List<String>?> getChannelIDs() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final List<String>? channelIDs = prefs.getStringList("channelIDs");
 
+    final List<String>? channelIDs = prefs.getStringList("channelIDs");
+    if (channelIDs == null) {
+      return [];
+    }
     return channelIDs;
   }
 
