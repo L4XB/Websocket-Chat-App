@@ -36,7 +36,9 @@ class _ChatViewState extends State<ChatView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: StyleConstants().buildAppBar("Connect to Server"),
+      floatingActionButton: FloatingActionButton(
+          onPressed: () => _addNewChannel(), child: const Icon(Icons.add)),
+      appBar: StyleConstants().buildAppBar("Chat Overview"),
       body: BlocProvider(
         create: (context) => ChatBloc(),
         child: BlocConsumer<ChatBloc, ChatState>(
@@ -63,4 +65,6 @@ class _ChatViewState extends State<ChatView> {
           context);
     }
   }
+
+  void _addNewChannel() {}
 }
