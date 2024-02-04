@@ -3,12 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:websocket_chat/source/common/constants/style_constants.dart';
 import 'package:websocket_chat/source/data/repositories/websocket_repositorie.dart';
 import 'package:websocket_chat/source/domain/entities/message_model.dart';
-import 'package:websocket_chat/source/domain/entities/user_model.dart';
 import 'package:websocket_chat/source/domain/usecases/get_history_messages.dart';
 import 'package:websocket_chat/source/domain/usecases/send_message.dart';
 import 'package:websocket_chat/source/presentation/blocs/chat_detail_bloc/chat_detail_bloc.dart';
-import 'package:websocket_chat/source/presentation/widgets/message_element_other_user.dart';
-import 'package:websocket_chat/source/presentation/widgets/message_text_box.dart';
+import 'package:websocket_chat/source/presentation/widgets/chat_detail_widgets/messages_recived_layout.dart';
 
 class ChatDetailView extends StatefulWidget {
   final WebsocketRepositorie repositorie;
@@ -25,26 +23,27 @@ class ChatDetailView extends StatefulWidget {
 }
 
 class _ChatDetailViewState extends State<ChatDetailView> {
+  /// [usecases]
   late SendMessageUseCase sendMessageUseCase;
   late GetHistoryMessagesUseCase usecase;
 
-  List<MessageModel> messages = [];
+  /// [controller]
   late TextEditingController messageInputController;
   ScrollController scrollController = ScrollController();
+
+  List<MessageModel> messages = [];
 
   @override
   void initState() {
     usecase = GetHistoryMessagesUseCase(repositorie: widget.repositorie);
     sendMessageUseCase = SendMessageUseCase(repositorie: widget.repositorie);
     messageInputController = TextEditingController();
-
     super.initState();
   }
 
   @override
   void dispose() {
     messageInputController.dispose();
-
     super.dispose();
   }
 
@@ -67,60 +66,12 @@ class _ChatDetailViewState extends State<ChatDetailView> {
 
   Widget _buildBody(BuildContext context, ChatDetailState state) {
     if (state is HistoryMessagesRecieved || state is MessageRecived) {
-      return Column(
-        children: [
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.only(top: 25, left: 20, right: 20),
-              child: ListView.builder(
-                controller: scrollController,
-                itemCount: messages.length,
-                itemBuilder: (context, index) {
-                  if (messages[index].userName == UserModel().userName) {
-                    return SizedBox(
-                      width: MediaQuery.of(context).size.width,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          MessageBubble(
-                            isAppUser: true,
-                            userName: messages[index].userName,
-                            message: messages[index].message,
-                          )
-                        ],
-                      ),
-                    );
-                  } else {
-                    return MessageBubble(
-                      isAppUser: false,
-                      userName: messages[index].userName,
-                      message: messages[index].message,
-                    );
-                  }
-                },
-              ),
-            ),
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: MessageInputField(
-                controller: messageInputController,
-                onPress: () {
-                  MessageModel appUser = MessageModel(
-                      id: "",
-                      userName: UserModel().userName,
-                      message: messageInputController.text);
-                  context.read<ChatDetailBloc>().add(SendMessage(
-                      channelID: widget.channelID,
-                      messageModel: appUser,
-                      useCase: sendMessageUseCase));
-                }),
-          ),
-        ],
-      );
+      return RecivedMessagesLayout(
+          channelID: widget.channelID,
+          messageInputController: messageInputController,
+          messages: messages,
+          scrollController: scrollController,
+          sendMessageUseCase: sendMessageUseCase);
     } else {
       return Container();
     }
