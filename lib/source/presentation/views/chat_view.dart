@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:websocket_chat/source/common/constants/style_constants.dart';
 import 'package:websocket_chat/source/data/repositories/shared_prefs_repository.dart';
 import 'package:websocket_chat/source/data/repositories/websocket_repositorie.dart';
+import 'package:websocket_chat/source/domain/usecases/get_channel_ids.dart';
 import 'package:websocket_chat/source/domain/usecases/supscripe_message_channel.dart';
 import 'package:websocket_chat/source/presentation/blocs/chat_bloc/chat_bloc.dart';
 import 'package:websocket_chat/source/presentation/navigation/navigator.dart';
@@ -44,12 +45,15 @@ class _ChatViewState extends State<ChatView> {
 
   @override
   Widget build(BuildContext context) {
+    final GetChannelIDsUseCase getChannelsUseCase =
+        GetChannelIDsUseCase(repository: widget.sharedPrefsRepository);
     return Scaffold(
       floatingActionButton: FloatingActionButton(
           onPressed: () => _addNewChannel(), child: const Icon(Icons.add)),
       appBar: StyleConstants().buildAppBar("Chat Overview"),
       body: BlocProvider(
-        create: (context) => ChatBloc(),
+        create: (context) => ChatBloc()
+          ..add(LoadAllMesageChannels(getChannelsUseCase: getChannelsUseCase)),
         child: BlocConsumer<ChatBloc, ChatState>(
           builder: (context, state) => _buildBody(context, state),
           listener: (context, state) => _triggerEvents(context, state),
@@ -59,9 +63,18 @@ class _ChatViewState extends State<ChatView> {
   }
 
   _buildBody(BuildContext context, ChatState state) {
+    if (state is ChannelsLoadedSuccefully) {
+      return Column(
+        children: [
+          // TODO: Implement listview
+          HomeDefaultLayout(
+              channelController: channelController, useCase: useCase),
+        ],
+      );
+    }
+
     return Column(
       children: [
-        // TODO: Implement listview
         HomeDefaultLayout(
             channelController: channelController, useCase: useCase),
       ],
