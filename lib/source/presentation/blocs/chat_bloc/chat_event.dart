@@ -9,3 +9,18 @@ final class SupscripeMessageChannel extends ChatEvent {
 
   SupscripeMessageChannel({required this.channelID, required this.usecase});
 }
+
+final class AddMessageChannel extends ChatEvent {
+  final String channelName;
+  final AddMessageChannelUseCase addChanneluseCase;
+  final GetChannelIDsUseCase getChannelsUseCase;
+
+  AddMessageChannel(
+      {required this.channelName,
+      required this.addChanneluseCase,
+      required this.getChannelsUseCase});
+}
+
+final class LoadAllMesageChannels extends ChatEvent {
+  //TODO: Implement usecase
+}

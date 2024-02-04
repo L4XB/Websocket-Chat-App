@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:websocket_chat/source/data/datasources/websocket_provider.dart';
+import 'package:websocket_chat/source/data/repositories/shared_prefs_repository.dart';
 import 'package:websocket_chat/source/data/repositories/websocket_repositorie.dart';
 import 'package:websocket_chat/source/presentation/views/chat_view.dart';
 
@@ -11,9 +12,12 @@ class WebSocketChat extends StatelessWidget {
     final provider = WebsocketProvider();
     final repositorie = WebsocketRepositorie(websocketProvider: provider);
 
+    final prefsRepository = SharedPrefsRepository();
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: ChatView(repositorie: repositorie),
+      home: ChatView(
+          repositorie: repositorie, sharedPrefsRepository: prefsRepository),
     );
   }
 }

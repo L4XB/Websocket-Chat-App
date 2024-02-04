@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:websocket_chat/source/common/constants/style_constants.dart';
+import 'package:websocket_chat/source/data/repositories/shared_prefs_repository.dart';
 import 'package:websocket_chat/source/data/repositories/websocket_repositorie.dart';
 import 'package:websocket_chat/source/domain/usecases/supscripe_message_channel.dart';
 import 'package:websocket_chat/source/presentation/blocs/chat_bloc/chat_bloc.dart';
@@ -10,7 +11,11 @@ import 'package:websocket_chat/source/presentation/widgets/chat_widgets/home_def
 
 class ChatView extends StatefulWidget {
   final WebsocketRepositorie repositorie;
-  const ChatView({super.key, required this.repositorie});
+  final SharedPrefsRepository sharedPrefsRepository;
+  const ChatView(
+      {super.key,
+      required this.repositorie,
+      required this.sharedPrefsRepository});
 
   @override
   State<ChatView> createState() => _ChatViewState();
@@ -19,11 +24,15 @@ class ChatView extends StatefulWidget {
 class _ChatViewState extends State<ChatView> {
   late SupscripeMessageChannelUseCase useCase;
   late TextEditingController channelController;
+  List<String>? channels = [];
 
   @override
   void initState() {
     useCase = SupscripeMessageChannelUseCase(repositorie: widget.repositorie);
     channelController = TextEditingController();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      channels = await widget.sharedPrefsRepository.getChannelIDs();
+    });
     super.initState();
   }
 
@@ -50,8 +59,13 @@ class _ChatViewState extends State<ChatView> {
   }
 
   _buildBody(BuildContext context, ChatState state) {
-    return HomeDefaultLayout(
-        channelController: channelController, useCase: useCase);
+    return Column(
+      children: [
+        // TODO: Implement listview
+        HomeDefaultLayout(
+            channelController: channelController, useCase: useCase),
+      ],
+    );
   }
 
   _triggerEvents(BuildContext context, ChatState state) {
@@ -66,5 +80,8 @@ class _ChatViewState extends State<ChatView> {
     }
   }
 
-  void _addNewChannel() {}
+  void _addNewChannel() async {
+    //TODO: Auf bloc auslagern
+    widget.sharedPrefsRepository.addChannelIDs([channelController.text]);
+  }
 }

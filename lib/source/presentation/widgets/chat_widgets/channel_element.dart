@@ -26,7 +26,7 @@ class ChannelElemnt extends StatelessWidget {
                 const SizedBox(
                   width: 30,
                 ),
-                Expanded(child: Text("Channel name :$channelName")),
+                Expanded(child: Text("channel name : $channelName")),
                 const Icon(
                   Icons.arrow_forward_ios_sharp,
                   size: 15,

@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:websocket_chat/source/domain/entities/message_model.dart';
+import 'package:websocket_chat/source/domain/usecases/add_message_channel.dart';
+import 'package:websocket_chat/source/domain/usecases/get_channel_ids.dart';
 import 'package:websocket_chat/source/domain/usecases/supscripe_message_channel.dart';
 
 part 'chat_event.dart';

@@ -18,3 +18,17 @@ final class SubscriptionSuccesfull extends ChatState {
 
   SubscriptionSuccesfull({required this.messageStream});
 }
+
+final class ChannelAddedSuccesfully extends ChatState {
+  final List<String> channelNamens;
+
+  ChannelAddedSuccesfully({required this.channelNamens});
+}
+
+final class ChannelAddingFailed extends ChatState {}
+
+final class ChannelsLoadedSuccefully extends ChatState {
+  final List<String> channelNamens;
+
+  ChannelsLoadedSuccefully({required this.channelNamens});
+}
