@@ -5,6 +5,7 @@ sealed class ChatDetailState {}
 
 final class ChatDetailInitial extends ChatDetailState {}
 
+/// subscript stream
 final class MessageRecived extends ChatDetailState {
   final MessageModel message;
 
@@ -15,6 +16,7 @@ final class SubscriptionFailed extends ChatDetailState {}
 
 final class SubscriptionSuccesfull extends ChatDetailState {}
 
+/// loading history
 final class HistoryMessagesRecieved extends ChatDetailState {
   final List<MessageModel> historyMessages;
 
@@ -22,3 +24,12 @@ final class HistoryMessagesRecieved extends ChatDetailState {
 }
 
 final class LoadHistoryMessagesFailed extends ChatDetailState {}
+
+/// message sending
+final class MessageSendedSuccefully extends ChatDetailState {
+  final MessageModel messageModel;
+
+  MessageSendedSuccefully({required this.messageModel});
+}
+
+final class SendingMessageFailed extends ChatDetailState {}

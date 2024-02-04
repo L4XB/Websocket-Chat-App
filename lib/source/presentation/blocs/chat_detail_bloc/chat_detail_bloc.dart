@@ -13,6 +13,7 @@ class ChatDetailBloc extends Bloc<ChatDetailEvent, ChatDetailState> {
   ChatDetailBloc() : super(ChatDetailInitial()) {
     on<SubscripeStream>(subscripeToMessageStream);
     on<LoadHistoryMessages>(loadHistoryMessagesFromWS);
+    on<SendMessage>(sendMessagesInChat);
   }
 
   FutureOr<void> subscripeToMessageStream(
@@ -37,5 +38,11 @@ class ChatDetailBloc extends Bloc<ChatDetailEvent, ChatDetailState> {
     } catch (e) {
       emit(LoadHistoryMessagesFailed());
     }
+  }
+
+  FutureOr<void> sendMessagesInChat(
+      SendMessage event, Emitter<ChatDetailState> emit) {
+    final channelID = event.channelID;
+    final MessageModel messageModel = event.messageModel;
   }
 }

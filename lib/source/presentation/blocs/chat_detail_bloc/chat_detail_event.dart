@@ -15,3 +15,10 @@ final class LoadHistoryMessages extends ChatDetailEvent {
 
   LoadHistoryMessages({required this.channelID, required this.useCase});
 }
+
+final class SendMessage extends ChatDetailEvent {
+  final String channelID;
+  final MessageModel messageModel;
+
+  SendMessage({required this.channelID, required this.messageModel});
+}
