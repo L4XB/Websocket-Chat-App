@@ -26,39 +26,43 @@ class RecivedMessagesLayout extends StatelessWidget {
     return Column(
       children: [
         Expanded(
-          child: Padding(
-            padding: const EdgeInsets.only(top: 25, left: 20, right: 20),
-            child: ListView.builder(
-              physics: const BouncingScrollPhysics(),
-              controller: scrollController,
-              itemCount: messages.length,
-              itemBuilder: (context, index) {
-                if (messages[index].userName == UserModel().userName) {
-                  return SizedBox(
-                    width: MediaQuery.of(context).size.width,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        MessageBubble(
-                          isAppUser: true,
-                          userName: messages[index].userName,
-                          message: messages[index].message,
-                        )
-                      ],
-                    ),
-                  );
-                } else {
-                  return MessageBubble(
-                    isAppUser: false,
-                    userName: messages[index].userName,
-                    message: messages[index].message,
-                  );
-                }
-              },
+          child: Container(
+            color: const Color.fromARGB(255, 192, 192, 192),
+            child: Padding(
+              padding: const EdgeInsets.only(top: 25, left: 20, right: 20),
+              child: ListView.builder(
+                physics: const BouncingScrollPhysics(),
+                controller: scrollController,
+                itemCount: messages.length,
+                itemBuilder: (context, index) {
+                  if (messages[index].userName == UserModel().userName) {
+                    return SizedBox(
+                      width: MediaQuery.of(context).size.width,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          MessageBubble(
+                            isAppUser: true,
+                            userName: messages[index].userName,
+                            message: messages[index].message,
+                          )
+                        ],
+                      ),
+                    );
+                  } else {
+                    return MessageBubble(
+                      isAppUser: false,
+                      userName: messages[index].userName,
+                      message: messages[index].message,
+                    );
+                  }
+                },
+              ),
             ),
           ),
         ),
-        const SizedBox(
+        Container(
+          color: const Color.fromARGB(255, 192, 192, 192),
           height: 20,
         ),
         Align(
@@ -74,6 +78,7 @@ class RecivedMessagesLayout extends StatelessWidget {
                     channelID: channelID,
                     messageModel: appUser,
                     useCase: sendMessageUseCase));
+                messageInputController.clear();
               }),
         ),
       ],
