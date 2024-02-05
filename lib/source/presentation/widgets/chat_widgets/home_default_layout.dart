@@ -34,7 +34,7 @@ class HomeDefaultLayout extends StatelessWidget {
               onPressed: () => context.read<ChatBloc>().add(
                   SupscripeMessageChannel(
                       channelID: channelController.text, usecase: useCase)),
-              child: const Text("Connect To Server")),
+              child: const Text("Connected To Server")),
         ),
       ],
     );
