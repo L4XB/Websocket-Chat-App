@@ -7,7 +7,6 @@ import 'package:websocket_chat/source/domain/usecases/add_message_channel.dart';
 import 'package:websocket_chat/source/domain/usecases/get_channel_ids.dart';
 import 'package:websocket_chat/source/domain/usecases/supscripe_message_channel.dart';
 import 'package:websocket_chat/source/presentation/blocs/chat_bloc/chat_bloc.dart';
-import 'package:websocket_chat/source/presentation/navigation/navigator.dart';
 import 'package:websocket_chat/source/presentation/views/chat_detail_view.dart';
 import 'package:websocket_chat/source/presentation/widgets/chat_widgets/home_default_layout.dart';
 
@@ -72,16 +71,25 @@ class _ChatViewState extends State<ChatView> {
     );
   }
 
-  _triggerEvents(BuildContext context, ChatState state) {
+  _triggerEvents(
+    BuildContext context,
+    ChatState state,
+  ) async {
     if (state is SubscriptionSuccesfull) {
       debugPrint("Succefully Connected");
-      AppNavigator().pushNavigationToWidget(
-          ChatDetailView(
+      await Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => ChatDetailView(
               messageStream: state.messageStream,
               getChannelIDsUseCase: getChannelsUseCase,
               repositorie: widget.repositorie,
               channelID: state.channelName),
-          context);
+        ),
+      );
+
+      // ignore: use_build_context_synchronously
+      _triggerNewLoadOfChannels(context);
     }
   }
 
@@ -93,6 +101,11 @@ class _ChatViewState extends State<ChatView> {
         channelName: channelName,
         addChanneluseCase: addChanneluseCase,
         getChannelsUseCase: getChannelsUseCase));
-    print("Adding new Channel");
+  }
+
+  _triggerNewLoadOfChannels(BuildContext context) {
+    context
+        .read<ChatBloc>()
+        .add(LoadAllMesageChannels(getChannelsUseCase: getChannelsUseCase));
   }
 }
