@@ -17,6 +17,7 @@ class WebSocketChat extends StatelessWidget {
     final prefsRepository = SharedPrefsRepository();
 
     return MaterialApp(
+      theme: ThemeData.light(),
       debugShowCheckedModeBanner: false,
       home: MultiBlocProvider(
         providers: [

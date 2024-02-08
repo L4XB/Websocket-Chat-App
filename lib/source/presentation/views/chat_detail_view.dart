@@ -55,7 +55,7 @@ class _ChatDetailViewState extends State<ChatDetailView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: StyleConstants().buildAppBar(widget.channelID),
+      appBar: StyleConstants().buildAppBar(widget.channelID, context),
       body: BlocProvider(
           create: (context) => ChatDetailBloc()
             ..add(
