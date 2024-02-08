@@ -57,13 +57,6 @@ class HomeDefaultLayout extends StatelessWidget {
             ),
           ),
         ),
-        Center(
-          child: OutlinedButton(
-              onPressed: () => context.read<ChatBloc>().add(
-                  SupscripeMessageChannel(
-                      channelID: channelController.text, usecase: useCase)),
-              child: const Text("Connected To Server")),
-        ),
       ],
     );
   }

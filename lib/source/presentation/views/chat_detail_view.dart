@@ -4,6 +4,7 @@ import 'package:websocket_chat/source/common/constants/style_constants.dart';
 import 'package:websocket_chat/source/common/util/scroll_utils.dart';
 import 'package:websocket_chat/source/data/repositories/websocket_repositorie.dart';
 import 'package:websocket_chat/source/domain/entities/message_model.dart';
+import 'package:websocket_chat/source/domain/usecases/get_channel_ids.dart';
 import 'package:websocket_chat/source/domain/usecases/get_history_messages.dart';
 import 'package:websocket_chat/source/domain/usecases/send_message.dart';
 import 'package:websocket_chat/source/presentation/blocs/chat_detail_bloc/chat_detail_bloc.dart';
@@ -12,10 +13,12 @@ import 'package:websocket_chat/source/presentation/widgets/chat_detail_widgets/m
 class ChatDetailView extends StatefulWidget {
   final WebsocketRepositorie repositorie;
   final Stream<dynamic> messageStream;
+  final GetChannelIDsUseCase getChannelIDsUseCase;
   final String channelID;
   const ChatDetailView(
       {super.key,
       required this.messageStream,
+      required this.getChannelIDsUseCase,
       required this.channelID,
       required this.repositorie});
 
