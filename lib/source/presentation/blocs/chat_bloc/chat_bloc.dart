@@ -37,7 +37,8 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     try {
       addChannelUseCase.execute([channelName]);
       final List<String>? allChannels = await getChannelIDs.execute();
-      emit(ChannelAddedSuccesfully(channelNamens: allChannels as List<String>));
+
+      emit(ChannelAddedSuccesfully(channelNamens: allChannels!));
     } catch (e) {
       emit(ChannelAddingFailed());
     }
@@ -45,12 +46,10 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
 
   FutureOr<void> loadAllMessageChannels(
       LoadAllMesageChannels event, Emitter<ChatState> emit) async {
+    final GetChannelIDsUseCase getChannelIDs = event.getChannelsUseCase;
     try {
-      final List<String>? allChannels =
-          await event.getChannelsUseCase.execute();
-
-      emit(
-          ChannelsLoadedSuccefully(channelNamens: allChannels as List<String>));
+      final List<String>? allChannels = await getChannelIDs.execute();
+      emit(ChannelsLoadedSuccefully(channelNamens: allChannels!));
     } catch (e) {
       emit(ChannelsLoadingFailed());
     }

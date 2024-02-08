@@ -12,11 +12,29 @@ class HomeDefaultLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return BlocConsumer<ChatBloc, ChatState>(
+      builder: (context, state) => _buildBody(context, state),
+      listener: (context, state) => _triggerEvents(context, state),
+    );
+  }
+
+  _buildBody(BuildContext context, ChatState state) {
     double scrrenWidth = MediaQuery.of(context).size.width;
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        ChannelElemnt(channelName: "1", onpress: () {}),
+        state is ChannelAddedSuccesfully || state is ChannelsLoadedSuccefully
+            ? Expanded(
+                child: ListView.builder(
+                  itemCount: (state as dynamic).channelNamens.length,
+                  itemBuilder: (context, index) {
+                    return ChannelElemnt(
+                        channelName: (state as dynamic).channelNamens[index],
+                        onpress: () {});
+                  },
+                ),
+              )
+            : Container(),
         Expanded(
           child: Align(
             alignment: Alignment.center,
@@ -38,5 +56,11 @@ class HomeDefaultLayout extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  _triggerEvents(BuildContext context, ChatState state) {
+    if (state is ChannelAddedSuccesfully || state is ChannelsLoadedSuccefully) {
+      print((state as dynamic).channelNamens.length);
+    }
   }
 }

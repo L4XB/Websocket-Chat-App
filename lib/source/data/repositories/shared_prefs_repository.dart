@@ -19,7 +19,9 @@ class SharedPrefsRepository {
 
   Future<void> addChannelIDs(List<String> channelIDs) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final List<String>? channelIDs = prefs.getStringList("channelIDs");
-    channelIDs?.addAll(channelIDs);
+    final List<String> existingChannelIDs =
+        prefs.getStringList("channelIDs") ?? [];
+    existingChannelIDs.addAll(channelIDs);
+    await prefs.setStringList("channelIDs", existingChannelIDs);
   }
 }
