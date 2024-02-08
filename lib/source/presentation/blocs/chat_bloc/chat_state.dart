@@ -15,8 +15,10 @@ final class SubscriptionFailed extends ChatState {}
 
 final class SubscriptionSuccesfull extends ChatState {
   final Stream<dynamic> messageStream;
+  final String channelName;
 
-  SubscriptionSuccesfull({required this.messageStream});
+  SubscriptionSuccesfull(
+      {required this.messageStream, required this.channelName});
 }
 
 final class ChannelAddedSuccesfully extends ChatState {

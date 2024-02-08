@@ -65,13 +65,11 @@ class _ChatViewState extends State<ChatView> {
   }
 
   _buildBody(BuildContext context, ChatState state) {
-    if (state is ChannelsLoadedSuccefully) {
-      return HomeDefaultLayout(
-          channelController: channelController, useCase: useCase);
-    } else {
-      return HomeDefaultLayout(
-          channelController: channelController, useCase: useCase);
-    }
+    return HomeDefaultLayout(
+      channelController: channelController,
+      useCase: useCase,
+      repositorie: widget.repositorie,
+    );
   }
 
   _triggerEvents(BuildContext context, ChatState state) {
@@ -81,7 +79,7 @@ class _ChatViewState extends State<ChatView> {
           ChatDetailView(
               messageStream: state.messageStream,
               repositorie: widget.repositorie,
-              channelID: channelController.text),
+              channelID: state.channelName),
           context);
     }
   }

@@ -23,7 +23,8 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     final channelID = event.channelID;
     try {
       Stream<dynamic> messageStream = await useCase.execute(channelID);
-      emit(SubscriptionSuccesfull(messageStream: messageStream));
+      emit(SubscriptionSuccesfull(
+          messageStream: messageStream, channelName: channelID));
     } catch (e) {
       emit(SubscriptionFailed());
     }

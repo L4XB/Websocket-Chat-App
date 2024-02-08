@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:websocket_chat/source/data/repositories/websocket_repositorie.dart';
 import 'package:websocket_chat/source/domain/usecases/supscripe_message_channel.dart';
 import 'package:websocket_chat/source/presentation/blocs/chat_bloc/chat_bloc.dart';
 import 'package:websocket_chat/source/presentation/widgets/chat_widgets/channel_element.dart';
 
 class HomeDefaultLayout extends StatelessWidget {
   final TextEditingController channelController;
+  final WebsocketRepositorie repositorie;
   final SupscripeMessageChannelUseCase useCase;
   const HomeDefaultLayout(
-      {super.key, required this.channelController, required this.useCase});
+      {super.key,
+      required this.channelController,
+      required this.useCase,
+      required this.repositorie});
 
   @override
   Widget build(BuildContext context) {
@@ -24,13 +29,18 @@ class HomeDefaultLayout extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         state is ChannelAddedSuccesfully || state is ChannelsLoadedSuccefully
-            ? Expanded(
+            ? Flexible(
                 child: ListView.builder(
                   itemCount: (state as dynamic).channelNamens.length,
                   itemBuilder: (context, index) {
                     return ChannelElemnt(
                         channelName: (state as dynamic).channelNamens[index],
-                        onpress: () {});
+                        onpress: () {
+                          context.read<ChatBloc>().add(SupscripeMessageChannel(
+                              channelID:
+                                  (state as dynamic).channelNamens[index],
+                              usecase: useCase));
+                        });
                   },
                 ),
               )
@@ -58,9 +68,5 @@ class HomeDefaultLayout extends StatelessWidget {
     );
   }
 
-  _triggerEvents(BuildContext context, ChatState state) {
-    if (state is ChannelAddedSuccesfully || state is ChannelsLoadedSuccefully) {
-      print((state as dynamic).channelNamens.length);
-    }
-  }
+  _triggerEvents(BuildContext context, ChatState state) {}
 }
