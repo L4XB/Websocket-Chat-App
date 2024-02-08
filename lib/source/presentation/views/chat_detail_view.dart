@@ -35,6 +35,7 @@ class _ChatDetailViewState extends State<ChatDetailView> {
   late TextEditingController messageInputController;
   ScrollController scrollController = ScrollController();
 
+  /// [message]
   List<MessageModel> messages = [];
 
   @override
