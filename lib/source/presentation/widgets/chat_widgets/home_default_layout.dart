@@ -25,11 +25,13 @@ class HomeDefaultLayout extends StatelessWidget {
 
   _buildBody(BuildContext context, ChatState state) {
     double scrrenWidth = MediaQuery.of(context).size.width;
+    double scrrenHeight = MediaQuery.of(context).size.height;
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         state is ChannelAddedSuccesfully || state is ChannelsLoadedSuccefully
-            ? Flexible(
+            ? SizedBox(
+                height: scrrenHeight * 0.5,
                 child: ListView.builder(
                   itemCount: (state as dynamic).channelNamens.length,
                   itemBuilder: (context, index) {
@@ -46,14 +48,11 @@ class HomeDefaultLayout extends StatelessWidget {
               )
             : Container(),
         Expanded(
-          child: Align(
-            alignment: Alignment.center,
-            child: SizedBox(
-              width: scrrenWidth * 0.6,
-              child: TextField(
-                controller: channelController,
-                decoration: const InputDecoration(border: OutlineInputBorder()),
-              ),
+          child: SizedBox(
+            width: scrrenWidth * 0.6,
+            child: TextField(
+              controller: channelController,
+              decoration: const InputDecoration(border: OutlineInputBorder()),
             ),
           ),
         ),

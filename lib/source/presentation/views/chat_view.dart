@@ -55,7 +55,7 @@ class _ChatViewState extends State<ChatView> {
           onPressed: () => _addNewChannel(channelController.text,
               addMessageChannelUseCase, getChannelsUseCase),
           child: const Icon(Icons.add)),
-      appBar: StyleConstants().buildAppBar("Chat Overview"),
+      appBar: StyleConstants().buildAppBar("Chats"),
       body: BlocConsumer<ChatBloc, ChatState>(
         builder: (context, state) => _buildBody(context, state),
         listener: (context, state) => _triggerEvents(context, state),
