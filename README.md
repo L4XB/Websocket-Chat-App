@@ -1,16 +1,17 @@
-# websocket_chat
+# Beschreibung:
 
-A new Flutter project.
+Die WebSocket-Chat-App in Flutter ermöglicht es Benutzern, sich anzumelden, Nachrichten zu senden und Nachrichten von anderen Benutzern in Echtzeit zu empfangen. Die App hat eine Benutzeroberfläche, die es Benutzern ermöglicht, Nachrichten einzugeben und anzuzeigen, sowie eine Liste von Benutzern, die online sind.
 
-## Getting Started
 
-This project is a starting point for a Flutter application.
+## Allgemeine Informationen
+  - Die App ziehlt nicht auf das Design sondern die funtionalität ab.
+  - Die App wird stetig weiterentwicklet.
 
-A few resources to get you started if this is your first Flutter project:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+# Funktionalität:
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+WebSocket-Verbindung: Nach der Anmeldung stellt die App eine WebSocket-Verbindung zu einem Chat-Server her. Diese Verbindung ermöglicht es der App, Nachrichten in Echtzeit zu senden und zu empfangen.
+
+Nachrichten senden und empfangen: Benutzer können Textnachrichten eingeben und an den Chat-Server senden. Der Server überträgt dann diese Nachrichten an alle anderen Benutzer, die mit der WebSocket-Verbindung verbunden sind. Die App empfängt eingehende Nachrichten und zeigt sie in Echtzeit im Chatfenster an.
+
+
