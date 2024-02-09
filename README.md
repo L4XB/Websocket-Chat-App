@@ -15,3 +15,8 @@ WebSocket-Verbindung: Nach der Anmeldung stellt die App eine WebSocket-Verbindun
 Nachrichten senden und empfangen: Benutzer können Textnachrichten eingeben und an den Chat-Server senden. Der Server überträgt dann diese Nachrichten an alle anderen Benutzer, die mit der WebSocket-Verbindung verbunden sind. Die App empfängt eingehende Nachrichten und zeigt sie in Echtzeit im Chatfenster an.
 
 
+# Backend Options
+
+https://github.com/L4XB/Websocket-Chat-Server
+
+
