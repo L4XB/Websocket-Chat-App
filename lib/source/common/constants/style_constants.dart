@@ -22,4 +22,20 @@ class StyleConstants {
       ],
     );
   }
+
+  InputDecoration buildInputDecoration(String hintText) {
+    return InputDecoration(
+      hintText: hintText,
+      hintStyle: const TextStyle(color: Colors.grey),
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(10),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(10),
+        borderSide: const BorderSide(
+          color: Color.fromARGB(255, 199, 156, 227),
+        ),
+      ),
+    );
+  }
 }
